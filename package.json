@@ -1,7 +1,7 @@
 {
   "name": "codojo",
   "version": "0.1.0",
-  "description": "Codojo AI 项目教学技能包",
+  "description": "Codojo 代码道场",
   "type": "module",
   "bin": {
     "dojo": "./scripts/dojo.mjs"
