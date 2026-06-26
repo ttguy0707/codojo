@@ -38,13 +38,16 @@ function usage() {
   console.log(`Codojo 安装脚本
 
 用法：
-  node scripts/install.mjs [--path <项目目录>] [--tools <工具>] [--force]
+  dojo install [--path <项目目录>] [--tools <工具>] [--force]
 
 选项：
   --path <项目目录>  目标项目目录，默认是当前目录。
   --tools <工具>     逗号分隔：codex,claude，或 all。默认 all。
   --force            替换已存在的受管技能。
   --help             显示帮助。
+
+兼容用法：
+  node scripts/install.mjs [--path <项目目录>] [--tools <工具>] [--force]
 `);
 }
 

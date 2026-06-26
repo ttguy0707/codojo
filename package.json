@@ -1,0 +1,13 @@
+{
+  "name": "codojo",
+  "version": "0.1.0",
+  "description": "Codojo AI 项目教学技能包",
+  "type": "module",
+  "bin": {
+    "dojo": "./scripts/dojo.mjs"
+  },
+  "scripts": {
+    "check": "node --check scripts/dojo.mjs && node --check scripts/install.mjs && node --check scripts/uninstall.mjs"
+  },
+  "license": "MIT"
+}

@@ -13,6 +13,8 @@
 2. 确认当前目录是 Codojo 仓库根目录，且存在：
 
    ```text
+   package.json
+   scripts/dojo.mjs
    scripts/install.mjs
    scripts/uninstall.mjs
    skills/_shared/
@@ -23,28 +25,34 @@
 
 ## 安装
 
+首次在 Codojo 仓库根目录创建本地 CLI：
+
+```bash
+npm link
+```
+
 默认同时安装到 Codex 和 Claude Code：
 
 ```bash
-node scripts/install.mjs --path /path/to/project
+dojo install --path /path/to/project
 ```
 
 只安装 Codex：
 
 ```bash
-node scripts/install.mjs --path /path/to/project --tools codex
+dojo install --path /path/to/project --tools codex
 ```
 
 只安装 Claude Code：
 
 ```bash
-node scripts/install.mjs --path /path/to/project --tools claude
+dojo install --path /path/to/project --tools claude
 ```
 
 覆盖已存在的 Codojo 受管技能：
 
 ```bash
-node scripts/install.mjs --path /path/to/project --force
+dojo install --path /path/to/project --force
 ```
 
 安装后会创建或更新：
@@ -64,19 +72,19 @@ node scripts/install.mjs --path /path/to/project --force
 卸载必须显式确认：
 
 ```bash
-node scripts/uninstall.mjs --path /path/to/project --yes
+dojo uninstall --path /path/to/project --yes
 ```
 
 只卸载 Codex：
 
 ```bash
-node scripts/uninstall.mjs --path /path/to/project --tools codex --yes
+dojo uninstall --path /path/to/project --tools codex --yes
 ```
 
 只卸载 Claude Code：
 
 ```bash
-node scripts/uninstall.mjs --path /path/to/project --tools claude --yes
+dojo uninstall --path /path/to/project --tools claude --yes
 ```
 
 卸载只删除：

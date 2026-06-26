@@ -33,13 +33,16 @@ function usage() {
   console.log(`Codojo 卸载脚本
 
 用法：
-  node scripts/uninstall.mjs [--path <项目目录>] [--tools <工具>] --yes
+  dojo uninstall [--path <项目目录>] [--tools <工具>] --yes
 
 选项：
   --path <项目目录>  目标项目目录，默认是当前目录。
   --tools <工具>     逗号分隔：codex,claude，或 all。默认 all。
   --yes, -y          确认卸载。卸载只删除受管技能，不删除 .codojo 学习文件。
   --help             显示帮助。
+
+兼容用法：
+  node scripts/uninstall.mjs [--path <项目目录>] [--tools <工具>] --yes
 `);
 }
 
