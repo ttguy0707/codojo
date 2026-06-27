@@ -6,17 +6,17 @@
 
 ### A code dojo where AI helps you go from "I cannot read this project" to "I can modify it"
 
-[![Version](https://img.shields.io/badge/version-0.1.0-6B7280.svg?labelColor=DC2626)](package.json)
-[![Node](https://img.shields.io/badge/Node.js-20+-6B7280.svg?logo=node.js&logoColor=white&labelColor=339933)](https://nodejs.org)
-[![Codex](https://img.shields.io/badge/Codex-supported-6B7280.svg?labelColor=0099FF)](#-installation)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-supported-6B7280.svg?labelColor=D97757)](#-installation)
+[![Codojo](https://img.shields.io/badge/Codojo-v0.1.0-6B7280.svg?labelColor=DC2626)](package.json)
+[![Node](https://img.shields.io/badge/Node.js-20+-6B7280.svg?labelColor=339933)](https://nodejs.org)
+[![Codex](https://img.shields.io/badge/Codex-on-6B7280.svg?labelColor=0099FF)](#-installation)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-on-6B7280.svg?labelColor=D97757)](#-installation)
 [![License](https://img.shields.io/badge/License-MIT-6B7280.svg?labelColor=16A34A)](LICENSE)
 
 **Code Dojo · 代码道场**
 
 English · [简体中文](README.md)
 
-[Quick Start](#-quick-start) · [Learning Flow](#-learning-flow) · [File Protocol](#-file-protocol) · [Skills](#-skills) · [CLI](#-cli)
+[Quick Start](#-quick-start) · [Learning Flow](#-learning-flow) · [File Protocol](#-file-protocol) · [Output Examples](#-output-examples) · [Skills](#-skills) · [CLI](#-cli)
 
 </div>
 
@@ -313,9 +313,129 @@ The first version supports:
 Not supported yet:
 
 - Standalone teaching web UI
-- `dojo init` as a CLI command
-- Background auto-update
 - npm release channel
+
+---
+
+## Output Examples
+
+The examples below simulate Codojo outputs for [CyberClaw](https://github.com/ttguy0707/CyberClaw). They show the rough shape of `.codojo/` learning files and intentionally exclude the CLI-managed `manifest.json`.
+
+### `open-questions.md`
+
+```markdown
+# Skill Assessment: [CyberClaw](https://github.com/ttguy0707/CyberClaw)
+
+## Project Profile
+
+- Language: Python 3.10+
+- Core frameworks: LangGraph, LangChain
+- Key modules: transparent audit, two-phase skill calls, dual-watermark memory, heartbeat tasks, sandbox tools
+- Entry files: entry/cli.py, entry/main.py, entry/monitor.py
+- Core files: cyberclaw/core/agent.py, context.py, skill_loader.py, heartbeat.py
+
+## Questionnaire
+
+1. How familiar are you with Python package structure, virtual environments, and `pip install -e .`?
+   - A. Not familiar at all
+   - B. Can run the project, but do not understand the package structure
+   - C. Can read `setup.py` and imports
+   - D. Can maintain Python CLI projects
+
+2. How familiar are you with LangGraph / LangChain agent orchestration?
+   - A. Never heard of them
+   - B. Heard of them but never used them
+   - C. Built simple chains
+   - D. Can design complex agent graphs
+
+3. Do you understand JSONL audit logs and event buses?
+   - A. No
+   - B. I know what logs are
+   - C. I can read event flows
+   - D. I can design traceable audit systems
+
+## Free Notes
+
+- Daily time budget: 45 minutes
+- Goal: understand the core agent execution path, then add filtering to the monitor
+- Preference: fewer abstract explanations, more walkthroughs using real files
+```
+
+### `task.md`
+
+```markdown
+# [CyberClaw](https://github.com/ttguy0707/CyberClaw) Learning Plan
+
+| ID | Topic | Files | Theory Goal | Practice Task | Status |
+|---|---|---|---|---|---|
+| T01 | Python CLI and editable install | setup.py, entry/cli.py | Understand how local commands are registered | Add a read-only `--version` option | Not started |
+| T02 | Config loading and environment variables | cyberclaw/core/config.py, .env.example | Understand config sources and defaults | Add one safe config option and document it | Not started |
+| T03 | Agent main loop | cyberclaw/core/agent.py | Understand how input reaches the model and tools | Add one debug log in the critical path | Not started |
+| T04 | Two-phase skill calls | cyberclaw/core/skill_loader.py | Understand the help -> run boundary | Add a friendly error for missing skill docs | Not started |
+| T05 | Dual-watermark memory | cyberclaw/core/context.py | Understand long-term profile and short-term summary | Adjust the summary threshold and observe tests | Not started |
+| T06 | Heartbeat tasks | cyberclaw/core/heartbeat.py | Understand task persistence and execution | Show a status field in the task list | Not started |
+| T07 | Transparent audit logs | cyberclaw/core/logger.py, entry/monitor.py | Understand how the 5 event types are recorded | Add event-type filtering to the monitor | Not started |
+```
+
+### `schedule.md`
+
+```markdown
+# Learning Progress
+
+Overall progress: 2 / 7
+
+| ID | Status | Last Note |
+|---|---|---|
+| T01 | Done | Understood `setup.py` entry_points and completed the `--version` practice |
+| T02 | Done | Added a config option and passed tests |
+| T03 | In progress | Theory finished; waiting for the user to say "understood" before practice |
+| T04 | Not started | - |
+| T05 | Not started | - |
+| T06 | Not started | - |
+| T07 | Not started | - |
+
+Next: continue T03 and explain how `cyberclaw/core/agent.py` connects model calls, tool calls, and audit events.
+```
+
+### `notebook.md`
+
+```markdown
+# Learning Notes
+
+## Python CLI
+
+`entry_points` in `setup.py` maps the `cyberclaw` command to `entry.cli:main`. During local development, `pip install -e .` lets code changes take effect without reinstalling the package.
+
+## Two-Phase Skill Calls
+
+CyberClaw does not execute skills immediately. It reads the `SKILL.md` instructions first, then enters the run phase. This reduces black-box tool execution risk and gives the user a chance to interrupt before execution.
+
+## Transparent Audit
+
+Audit logs use JSONL: one event per line. Compared with plain text logs, JSONL is easier to filter, replay, and render in monitoring UIs.
+```
+
+### `plan.md`
+
+```markdown
+# [CyberClaw](https://github.com/ttguy0707/CyberClaw) Modification Plan
+
+## Direction A: Monitor Event Filtering
+
+Goal: add event-type filtering to `entry/monitor.py`, so users can show only `tool_call`, `tool_result`, or `ai_message`.
+
+Tasks:
+
+- [ ] Trace how the monitor reads JSONL today
+- [ ] Add a `--event-type` CLI option
+- [ ] Filter events before rendering
+- [ ] Add or update tests
+
+Acceptance:
+
+- `cyberclaw monitor --event-type tool_call` shows only tool-call events
+- The default behavior stays unchanged when no filter is provided
+```
 
 ---
 

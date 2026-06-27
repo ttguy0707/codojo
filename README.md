@@ -6,17 +6,17 @@
 
 ### 代码道场：让 AI 陪你从「看不懂项目」到「能独立魔改」
 
-[![Version](https://img.shields.io/badge/version-0.1.0-6B7280.svg?labelColor=DC2626)](package.json)
-[![Node](https://img.shields.io/badge/Node.js-20+-6B7280.svg?logo=node.js&logoColor=white&labelColor=339933)](https://nodejs.org)
-[![Codex](https://img.shields.io/badge/Codex-supported-6B7280.svg?labelColor=0099FF)](#-安装)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-supported-6B7280.svg?labelColor=D97757)](#-安装)
+[![Codojo](https://img.shields.io/badge/Codojo-v0.1.0-6B7280.svg?labelColor=DC2626)](package.json)
+[![Node](https://img.shields.io/badge/Node.js-20+-6B7280.svg?labelColor=339933)](https://nodejs.org)
+[![Codex](https://img.shields.io/badge/Codex-on-6B7280.svg?labelColor=0099FF)](#-安装)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-on-6B7280.svg?labelColor=D97757)](#-安装)
 [![License](https://img.shields.io/badge/License-MIT-6B7280.svg?labelColor=16A34A)](LICENSE)
 
 **Code Dojo · 代码道场**
 
 [English](README_en.md) · 简体中文
 
-[快速开始](#-快速开始) · [学习流程](#-学习流程) · [文件协议](#-文件协议) · [Skills](#-skills) · [CLI](#-cli)
+[快速开始](#-快速开始) · [学习流程](#-学习流程) · [文件协议](#-文件协议) · [产物示例](#-产物示例) · [Skills](#-skills) · [CLI](#-cli)
 
 </div>
 
@@ -315,9 +315,129 @@ Codojo 第一版只支持：
 暂不支持：
 
 - 独立教学 Web UI
-- `dojo init` CLI 命令
-- 后台自动更新
 - npm 发布通道
+
+---
+
+## 产物示例
+
+以下示例以 [CyberClaw](https://github.com/ttguy0707/CyberClaw) 为目标项目模拟生成，展示 `.codojo/` 中学习产物的大致形态。这里不包含 CLI 安装用的 `manifest.json`。
+
+### `open-questions.md`
+
+```markdown
+# 能力评估：[CyberClaw](https://github.com/ttguy0707/CyberClaw)
+
+## 项目画像
+
+- 语言：Python 3.10+
+- 核心框架：LangGraph、LangChain
+- 关键模块：透明审计、两段式技能调用、双水位记忆、心跳任务、沙盒工具
+- 入口文件：entry/cli.py、entry/main.py、entry/monitor.py
+- 核心代码：cyberclaw/core/agent.py、context.py、skill_loader.py、heartbeat.py
+
+## 问卷
+
+1. 你对 Python 包结构、虚拟环境和 `pip install -e .` 的熟悉程度？
+   - A. 完全不了解
+   - B. 能运行项目，但不了解包结构
+   - C. 能读懂 `setup.py` 和模块导入
+   - D. 能维护 Python CLI 项目
+
+2. 你对 LangGraph / LangChain 智能体编排的了解程度？
+   - A. 没听过
+   - B. 听过但没用过
+   - C. 做过简单链路
+   - D. 能设计复杂 agent graph
+
+3. 你是否理解 JSONL 审计日志和事件总线？
+   - A. 不理解
+   - B. 知道日志是什么
+   - C. 能读懂事件流
+   - D. 能设计可追踪审计系统
+
+## 自由补充
+
+- 每天可投入：45 分钟
+- 目标：先看懂核心 agent 执行链路，再尝试给监控端增加过滤功能
+- 偏好：少讲抽象概念，多结合真实文件逐步拆解
+```
+
+### `task.md`
+
+```markdown
+# [CyberClaw](https://github.com/ttguy0707/CyberClaw) 学习计划
+
+| 编号 | 知识点 | 关联文件 | 理论目标 | 实践任务 | 状态 |
+|---|---|---|---|---|---|
+| T01 | Python CLI 和可编辑安装 | setup.py、entry/cli.py | 理解命令如何注册到本地环境 | 给 CLI 增加一个只读 `--version` 参数 | 未学 |
+| T02 | 配置加载与环境变量 | cyberclaw/core/config.py、.env.example | 理解配置来源和默认值 | 新增一个安全的配置项并写入示例 | 未学 |
+| T03 | Agent 主循环 | cyberclaw/core/agent.py | 理解用户输入如何进入模型和工具调用 | 在关键路径增加一条调试日志 | 未学 |
+| T04 | 两段式技能调用 | cyberclaw/core/skill_loader.py | 理解 help -> run 的安全边界 | 为技能说明缺失场景补一个友好错误 | 未学 |
+| T05 | 双水位记忆 | cyberclaw/core/context.py | 理解长期画像和短期摘要的职责 | 调整摘要触发阈值并观察测试变化 | 未学 |
+| T06 | 心跳任务系统 | cyberclaw/core/heartbeat.py | 理解后台任务如何持久化和执行 | 给任务列表增加状态字段展示 | 未学 |
+| T07 | 透明审计日志 | cyberclaw/core/logger.py、entry/monitor.py | 理解 5 类事件如何被记录和展示 | 给 monitor 增加按事件类型过滤 | 未学 |
+```
+
+### `schedule.md`
+
+```markdown
+# 学习进度
+
+总体进度：2 / 7
+
+| 编号 | 状态 | 最近一次记录 |
+|---|---|---|
+| T01 | 已学 | 已理解 `setup.py` 的 entry_points，并完成 `--version` 实践 |
+| T02 | 已学 | 已新增配置项，测试通过 |
+| T03 | 进行中 | 理论已讲完，等待用户回复“理解”后进入实践 |
+| T04 | 未学 | - |
+| T05 | 未学 | - |
+| T06 | 未学 | - |
+| T07 | 未学 | - |
+
+下一步：继续 T03，讲解 `cyberclaw/core/agent.py` 中模型调用、工具调用和审计事件的连接方式。
+```
+
+### `notebook.md`
+
+```markdown
+# 学习笔记
+
+## Python CLI
+
+`setup.py` 中的 `entry_points` 会把 `cyberclaw` 命令映射到 `entry.cli:main`。本地开发时使用 `pip install -e .`，代码改动后不需要重新安装包。
+
+## 两段式技能调用
+
+CyberClaw 的技能不是直接执行，而是先读取 `SKILL.md` 的说明，再进入 run 阶段。这个设计降低了黑箱工具调用风险，也让用户有机会在执行前打断。
+
+## 透明审计
+
+审计日志使用 JSONL，一行一个事件。相比普通文本日志，它更适合后续筛选、回放和监控 UI 展示。
+```
+
+### `plan.md`
+
+```markdown
+# [CyberClaw](https://github.com/ttguy0707/CyberClaw) 魔改计划
+
+## 方向 A：监控端事件过滤
+
+目标：在 `entry/monitor.py` 增加事件类型过滤，只显示 `tool_call`、`tool_result` 或 `ai_message`。
+
+任务：
+
+- [ ] 梳理 monitor 当前读取 JSONL 的流程
+- [ ] 增加 `--event-type` CLI 参数
+- [ ] 在渲染前过滤事件
+- [ ] 增加或更新测试
+
+验收：
+
+- `cyberclaw monitor --event-type tool_call` 只展示工具调用事件
+- 不传参数时保持原行为
+```
 
 ---
 
