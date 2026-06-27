@@ -21,7 +21,7 @@ function usage() {
   console.log(`Codojo CLI
 
 用法：
-  dojo install [-t <工具>] [--path <项目目录>] [--force]
+  dojo install [-t <工具>] [--path <项目目录>]
   dojo uninstall [-t <工具>] [--path <项目目录>] -y
 
 命令：

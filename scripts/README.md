@@ -49,10 +49,10 @@ dojo install --path /path/to/project -t codex
 dojo install --path /path/to/project -t claude
 ```
 
-覆盖已存在的 Codojo 受管技能：
+重复执行安装会更新已存在的 Codojo 受管技能：
 
 ```bash
-dojo install --path /path/to/project --force
+dojo install --path /path/to/project
 ```
 
 安装后会创建或更新：
@@ -100,7 +100,7 @@ dojo uninstall --path /path/to/project -t claude -y
 
 ## 安全规则
 
-- 默认不覆盖已存在目录；用户明确要求时才加 `--force`。
+- 安装可重复执行，只更新 Codojo 受管的 `_shared` 和 `dojo-*` 目录。
 - 卸载必须带 `-y` 或 `--yes`。
 - 不要手动删除 `.codojo/`，除非用户明确要求清空学习进度。
 - 不要删除非 `dojo-*` 的其他 skill。

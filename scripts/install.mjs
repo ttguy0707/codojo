@@ -25,12 +25,10 @@ const toolTargets = {
   codex: {
     label: 'Codex',
     dir: '.codex/skills',
-    next: '在目标项目中对 Codex 说：dojo init。',
   },
   claude: {
     label: 'Claude Code',
     dir: '.claude/skills',
-    next: '在目标项目中对 Claude Code 说：dojo init。',
   },
 };
 
@@ -38,12 +36,12 @@ function usage() {
   console.log(`Codojo 安装脚本
 
 用法：
-  dojo install [--path <项目目录>] [-t <工具>] [--force]
+  dojo install [--path <项目目录>] [-t <工具>]
 
 选项：
   --path <项目目录>  目标项目目录，默认是当前目录。
   --tools, -t <工具> 逗号分隔：codex,claude，或 all。默认 all。
-  --force            替换已存在的受管技能。
+  --force            兼容旧用法；当前安装默认会更新受管技能。
   --help             显示帮助。
 
 兼容用法：
@@ -166,13 +164,58 @@ function sameDirectory(a, b) {
 
 function installDirectory(source, target, options) {
   if (existsSync(target)) {
-    if (!options.force) {
-      throw new Error(`目标已存在：${target}。如需替换受管内容，请加 --force。`);
-    }
     rmSync(target, { recursive: true, force: true });
   }
 
   cpSync(source, target, { recursive: true });
+}
+
+function shouldUseColor() {
+  return Boolean(process.stdout.isTTY) && process.env.NO_COLOR === undefined;
+}
+
+function red(text) {
+  if (!shouldUseColor()) return text;
+  return `\x1b[38;2;220;38;38m${text}\x1b[0m`;
+}
+
+function bold(text) {
+  if (!shouldUseColor()) return text;
+  return `\x1b[1m${text}\x1b[0m`;
+}
+
+function colorSegment(line, start, end) {
+  return `${line.slice(0, start)}${red(line.slice(start, end))}${line.slice(end)}`;
+}
+
+function printInstallHeader() {
+  const logoLines = [
+    '   ______          __        _     ',
+    '  / ____/___  ____/ /___    (_)___ ',
+    ' / /   / __ \\/ __  / __ \\  / / __ \\',
+    '/ /___/ /_/ / /_/ / /_/ / / / /_/ /',
+    '\\____/\\____/\\____/\\____/_/ /\\____/ ',
+    '                       /___/        ',
+  ];
+
+  const logoColorSegments = [
+    [19, 21],
+    [14, 24],
+    [13, 25],
+    [12, 25],
+    [12, 24],
+    null,
+  ];
+
+  const coloredLogoLines = logoLines.map((line, index) => {
+    const segment = logoColorSegments[index];
+    if (!segment) return line;
+    return colorSegment(line, segment[0], segment[1]);
+  });
+
+  console.log(`\n${coloredLogoLines.join('\n')}`);
+  console.log('');
+  console.log(`  ${red('-----')} ${bold('Code Dojo')} · ${bold('代码道场')} ${red('-----')}\n`);
 }
 
 function install(projectPath, options) {
@@ -190,6 +233,8 @@ function install(projectPath, options) {
   const selectedToolSet = new Set(selectedTools);
   const managedSkills = listManagedSkills();
   const installations = [];
+
+  printInstallHeader();
 
   for (const tool of selectedTools) {
     const targetInfo = toolTargets[tool];
@@ -221,7 +266,7 @@ function install(projectPath, options) {
       skills: installedSkills,
     });
 
-    console.log(`已安装 ${installedSkills.length} 个 Codojo 技能到 ${targetInfo.label}：${targetSkillsDir}`);
+    console.log(`${red('●')} ${bold(targetInfo.label)} is ${red('ready')} -> ${targetSkillsDir}`);
   }
 
   const currentManifest = readManifest(projectPath);
@@ -236,9 +281,8 @@ function install(projectPath, options) {
     tools: [...preservedTools, ...installations],
   });
 
-  for (const item of installations) {
-    console.log(`下一步（${item.label}）：${toolTargets[item.tool].next}`);
-  }
+  console.log('');
+  console.log(`Now open your ${red('agent')} and say: ${red('dojo init')}`);
 }
 
 try {
