@@ -178,13 +178,25 @@ dojo start
 
 ## CLI
 
-当前 CLI 只负责安装、卸载和管理 skills。
+当前 CLI 只负责安装、状态查看、更新、卸载和管理 skills。
 
 ```bash
 dojo install
 dojo install -t codex
 dojo install -t claude
 dojo install --path /path/to/project
+```
+
+```bash
+dojo status
+dojo status -t codex
+dojo status --path /path/to/project
+```
+
+```bash
+dojo update
+dojo update -t claude
+dojo update --path /path/to/project
 ```
 
 ```bash
@@ -203,6 +215,10 @@ dojo uninstall --path /path/to/project -y
 | `-y, --yes` | 卸载确认，只用于 `uninstall` |
 | `--force` | 兼容旧安装用法；当前安装默认幂等更新 |
 | `--fix-shell` | 将 npm 全局 bin 写入 shell profile，修复新终端找不到 `dojo` |
+
+`dojo status` 会读取目标项目的 `.codojo/manifest.json`，并检查 Codex / Claude Code 目录中的 `_shared` 和 `dojo-*` skills 是否完整。
+
+`dojo update` 会先在 Codojo 本体仓库执行 `git pull --ff-only`，然后对目标项目执行一次幂等安装。它只更新受管 skills，会保留 `.codojo/` 学习进度。
 
 ---
 
@@ -294,12 +310,14 @@ Codojo 第一版只支持：
 - Claude Code
 - Node.js CLI
 - skills 作为主要载体
+- 手动 `dojo update`
 
 暂不支持：
 
 - 独立教学 Web UI
 - `dojo init` CLI 命令
-- 自动发布/远程更新
+- 后台自动更新
+- npm 发布通道
 
 ---
 

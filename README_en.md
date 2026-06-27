@@ -176,13 +176,25 @@ Note: `dojo init` is a chat trigger for the skill workflow, not a CLI command.
 
 ## CLI
 
-The CLI currently installs and uninstalls skills.
+The CLI installs, checks, updates, uninstalls, and manages skills.
 
 ```bash
 dojo install
 dojo install -t codex
 dojo install -t claude
 dojo install --path /path/to/project
+```
+
+```bash
+dojo status
+dojo status -t codex
+dojo status --path /path/to/project
+```
+
+```bash
+dojo update
+dojo update -t claude
+dojo update --path /path/to/project
 ```
 
 ```bash
@@ -201,6 +213,10 @@ Options:
 | `-y, --yes` | Required confirmation for `uninstall` |
 | `--force` | Legacy compatibility. Install is already idempotent |
 | `--fix-shell` | Writes npm global bin into the shell profile so `dojo` works in new terminals |
+
+`dojo status` reads `.codojo/manifest.json` in the target project and checks whether `_shared` and `dojo-*` skills are complete under Codex / Claude Code.
+
+`dojo update` runs `git pull --ff-only` in the Codojo source repository, then performs one idempotent install into the target project. It updates only managed skills and preserves `.codojo/` learning progress.
 
 ---
 
@@ -292,12 +308,14 @@ The first version supports:
 - Claude Code
 - Node.js CLI
 - Skills as the main carrier
+- Manual `dojo update`
 
 Not supported yet:
 
 - Standalone teaching web UI
 - `dojo init` as a CLI command
-- Automatic remote update
+- Background auto-update
+- npm release channel
 
 ---
 

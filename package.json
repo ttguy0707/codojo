@@ -7,7 +7,7 @@
     "dojo": "./scripts/dojo.mjs"
   },
   "scripts": {
-    "check": "node --check scripts/dojo.mjs && node --check scripts/install.mjs && node --check scripts/uninstall.mjs"
+    "check": "node --check scripts/dojo.mjs && node --check scripts/install.mjs && node --check scripts/status.mjs && node --check scripts/update.mjs && node --check scripts/uninstall.mjs"
   },
   "license": "MIT"
 }

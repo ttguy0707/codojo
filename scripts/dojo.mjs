@@ -11,6 +11,14 @@ const commands = {
     description: '安装 Codojo skills 到目标项目',
     script: 'install.mjs',
   },
+  status: {
+    description: '查看目标项目中的 Codojo 安装状态',
+    script: 'status.mjs',
+  },
+  update: {
+    description: '更新 Codojo 本体并重新安装受管 skills',
+    script: 'update.mjs',
+  },
   uninstall: {
     description: '卸载目标项目中的 Codojo 受管 skills',
     script: 'uninstall.mjs',
@@ -22,10 +30,14 @@ function usage() {
 
 用法：
   dojo install [-t <工具>] [--path <项目目录>] [--fix-shell]
+  dojo status [-t <工具>] [--path <项目目录>]
+  dojo update [-t <工具>] [--path <项目目录>]
   dojo uninstall [-t <工具>] [--path <项目目录>] -y
 
 命令：
   install    ${commands.install.description}
+  status     ${commands.status.description}
+  update     ${commands.update.description}
   uninstall  ${commands.uninstall.description}
 
 通用选项：
@@ -42,6 +54,8 @@ function usage() {
 示例：
   dojo install -t codex
   dojo install -t claude
+  dojo status
+  dojo update
   dojo install --fix-shell
   dojo uninstall -y
 `);

@@ -16,6 +16,8 @@
    package.json
    scripts/dojo.mjs
    scripts/install.mjs
+   scripts/status.mjs
+   scripts/update.mjs
    scripts/uninstall.mjs
    skills/_shared/
    skills/dojo-*/
@@ -115,9 +117,57 @@ dojo uninstall --path /path/to/project -t claude -y
 
 卸载会保留 `.codojo/`，避免删除用户学习进度。
 
+## 状态查看
+
+查看当前目录的安装状态：
+
+```bash
+dojo status
+```
+
+查看指定项目：
+
+```bash
+dojo status --path /path/to/project
+```
+
+只查看某个工具：
+
+```bash
+dojo status --path /path/to/project -t codex
+dojo status --path /path/to/project -t claude
+```
+
+`dojo status` 只读文件，不会修改目标项目。它会检查 `.codojo/manifest.json`、`_shared` 和 `dojo-*` skills。
+
+## 更新
+
+更新 Codojo 本体并重新安装受管 skills：
+
+```bash
+dojo update
+```
+
+如果 AI 当前不在目标项目目录：
+
+```bash
+dojo update --path /path/to/project
+```
+
+只更新某个工具：
+
+```bash
+dojo update --path /path/to/project -t codex
+dojo update --path /path/to/project -t claude
+```
+
+`dojo update` 会先在 Codojo 仓库执行 `git pull --ff-only`，再执行一次幂等安装。它只更新 `_shared` 和 `dojo-*` skills，不会删除 `.codojo/` 学习文件。
+
 ## 安全规则
 
 - 安装可重复执行，只更新 Codojo 受管的 `_shared` 和 `dojo-*` 目录。
+- 状态查看只读文件，不修改任何目录。
+- 更新会执行 `git pull --ff-only`，如果本地 Codojo 仓库有未处理冲突或不能快进，应先让用户处理。
 - 只有用户明确执行 `--fix-shell` 时，才修改 shell profile。
 - 卸载必须带 `-y` 或 `--yes`。
 - 不要手动删除 `.codojo/`，除非用户明确要求清空学习进度。
