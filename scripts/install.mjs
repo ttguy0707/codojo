@@ -25,12 +25,12 @@ const toolTargets = {
   codex: {
     label: 'Codex',
     dir: '.codex/skills',
-    next: '在目标项目中让 Codex 使用 $dojo-init。',
+    next: '在目标项目中对 Codex 说：dojo init。',
   },
   claude: {
     label: 'Claude Code',
     dir: '.claude/skills',
-    next: '在目标项目中让 Claude Code 使用 dojo-init。',
+    next: '在目标项目中对 Claude Code 说：dojo init。',
   },
 };
 
@@ -38,11 +38,11 @@ function usage() {
   console.log(`Codojo 安装脚本
 
 用法：
-  dojo install [--path <项目目录>] [--tools <工具>] [--force]
+  dojo install [--path <项目目录>] [-t <工具>] [--force]
 
 选项：
   --path <项目目录>  目标项目目录，默认是当前目录。
-  --tools <工具>     逗号分隔：codex,claude，或 all。默认 all。
+  --tools, -t <工具> 逗号分隔：codex,claude，或 all。默认 all。
   --force            替换已存在的受管技能。
   --help             显示帮助。
 
@@ -65,9 +65,9 @@ function parseArgs(argv) {
       const value = argv[++i];
       if (!value) throw new Error('--path 需要一个目录值');
       options.path = path.resolve(value);
-    } else if (arg === '--tools') {
+    } else if (arg === '--tools' || arg === '-t') {
       const value = argv[++i];
-      if (!value) throw new Error('--tools 需要一个工具列表');
+      if (!value) throw new Error(`${arg} 需要一个工具列表`);
       options.tools = value;
     } else if (arg === '--force') {
       options.force = true;

@@ -5,7 +5,7 @@ stage: init
 version: 0.1.0
 description: |
   Codojo 初始化入口（必须最先触发的 skill）。
-  触发词：dojo init（仅此一个，精确匹配）。
+  触发词：dojo init、道场启动、开始学习、启动、dojo start。
   职责：
     1. 强制读取 _shared/methodology.md，让 AI 完整理解四阶段教学方法论
     2. 读取完成后，直接转入 dojo-stage 进行阶段调度
@@ -19,7 +19,11 @@ description: |
 
 ## 触发词
 
-- `dojo init`（仅此一个）
+- `dojo init`
+- `道场启动`
+- `开始学习`
+- `启动`
+- `dojo start`
 
 ## 何时使用
 
@@ -54,7 +58,7 @@ description: |
 
 ## Gotchas
 
-- **每个新 session 都应以 `dojo init` 开始**——这是唯一能保证 AI 读取了方法论的方式
+- **每个新 session 都应先触发本 skill**——推荐说 `dojo init`，也可以说 `道场启动`、`开始学习`、`启动` 或 `dojo start`
 - 不要跳过读取 methodology.md 的步骤，即使你"记得"方法论内容
 - 本 skill **只做读取方法论**，不做进度检测、不做路由判断、不做教学/评估/编码
 - 如果找不到 `_shared/methodology.md`，提示用户可能未正确安装，给出重新安装的命令

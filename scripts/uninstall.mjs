@@ -33,11 +33,11 @@ function usage() {
   console.log(`Codojo 卸载脚本
 
 用法：
-  dojo uninstall [--path <项目目录>] [--tools <工具>] --yes
+  dojo uninstall [--path <项目目录>] [-t <工具>] -y
 
 选项：
   --path <项目目录>  目标项目目录，默认是当前目录。
-  --tools <工具>     逗号分隔：codex,claude，或 all。默认 all。
+  --tools, -t <工具> 逗号分隔：codex,claude，或 all。默认 all。
   --yes, -y          确认卸载。卸载只删除受管技能，不删除 .codojo 学习文件。
   --help             显示帮助。
 
@@ -60,9 +60,9 @@ function parseArgs(argv) {
       const value = argv[++i];
       if (!value) throw new Error('--path 需要一个目录值');
       options.path = path.resolve(value);
-    } else if (arg === '--tools') {
+    } else if (arg === '--tools' || arg === '-t') {
       const value = argv[++i];
-      if (!value) throw new Error('--tools 需要一个工具列表');
+      if (!value) throw new Error(`${arg} 需要一个工具列表`);
       options.tools = value;
     } else if (arg === '--yes' || arg === '-y') {
       options.yes = true;
@@ -160,7 +160,7 @@ function manifestTargetsFor(projectPath, selectedTools) {
 
 function uninstall(projectPath, options) {
   if (!options.yes) {
-    throw new Error('拒绝卸载：请加 --yes 确认。卸载只删除受管 dojo-* 技能和 _shared，不删除 .codojo 学习文件。');
+    throw new Error('拒绝卸载：请加 -y 或 --yes 确认。卸载只删除受管 dojo-* 技能和 _shared，不删除 .codojo 学习文件。');
   }
 
   if (existsSync(projectPath) && !statSync(projectPath).isDirectory()) {

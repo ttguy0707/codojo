@@ -21,8 +21,8 @@ function usage() {
   console.log(`Codojo CLI
 
 用法：
-  dojo install [--path <项目目录>] [--tools <工具>] [--force]
-  dojo uninstall [--path <项目目录>] [--tools <工具>] --yes
+  dojo install [-t <工具>] [--path <项目目录>] [--force]
+  dojo uninstall [-t <工具>] [--path <项目目录>] -y
 
 命令：
   install    ${commands.install.description}
@@ -32,9 +32,9 @@ function usage() {
   --help, -h  显示帮助。
 
 示例：
-  dojo install --path /path/to/project
-  dojo install --path /path/to/project --tools codex
-  dojo uninstall --path /path/to/project --yes
+  dojo install -t codex
+  dojo install -t claude
+  dojo uninstall -y
 `);
 }
 

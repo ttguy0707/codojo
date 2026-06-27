@@ -88,12 +88,19 @@ dojo install
 dojo install --path /path/to/project
 ```
 
-支持 Claude Code、Codex。默认同时写入 `.codex/skills` 和 `.claude/skills`，也可以用 `--tools codex` 或 `--tools claude` 指定目标。
+支持 Claude Code、Codex。默认同时写入 `.codex/skills` 和 `.claude/skills`，也可以用 `-t codex` 或 `-t claude` 指定目标。
+
+简写：
+
+```bash
+dojo install -t codex
+dojo install -t claude
+```
 
 卸载受管 skills：
 
 ```bash
-dojo uninstall --path /path/to/project --yes
+dojo uninstall -y
 ```
 
 ## 产出物目录
@@ -112,13 +119,22 @@ dojo uninstall --path /path/to/project --yes
 
 ## 使用方式
 
-安装完成后，在你想学习的项目中输入：
+安装完成后，在目标项目里打开 Codex 或 Claude Code，对 AI 发送启动关键词：
 
 ```
 dojo init
 ```
 
-这是**唯一推荐的启动命令**。它会让 AI 读取方法论、检测学习进度，然后引导你进入正确的阶段。
+也可以说：
+
+```text
+道场启动
+开始学习
+启动
+dojo start
+```
+
+这些都是对话里的启动关键词，不是 CLI 命令。它会让 AI 读取方法论、检测学习进度，然后引导你进入正确的阶段。
 
 > ⚠️ **每次新开 session 都建议先输入 `dojo init`**，确保 AI 重新加载方法论上下文。
 

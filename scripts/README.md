@@ -40,13 +40,13 @@ dojo install --path /path/to/project
 只安装 Codex：
 
 ```bash
-dojo install --path /path/to/project --tools codex
+dojo install --path /path/to/project -t codex
 ```
 
 只安装 Claude Code：
 
 ```bash
-dojo install --path /path/to/project --tools claude
+dojo install --path /path/to/project -t claude
 ```
 
 覆盖已存在的 Codojo 受管技能：
@@ -78,13 +78,13 @@ dojo uninstall --path /path/to/project --yes
 只卸载 Codex：
 
 ```bash
-dojo uninstall --path /path/to/project --tools codex --yes
+dojo uninstall --path /path/to/project -t codex -y
 ```
 
 只卸载 Claude Code：
 
 ```bash
-dojo uninstall --path /path/to/project --tools claude --yes
+dojo uninstall --path /path/to/project -t claude -y
 ```
 
 卸载只删除：
@@ -101,7 +101,7 @@ dojo uninstall --path /path/to/project --tools claude --yes
 ## 安全规则
 
 - 默认不覆盖已存在目录；用户明确要求时才加 `--force`。
-- 卸载必须带 `--yes`。
+- 卸载必须带 `-y` 或 `--yes`。
 - 不要手动删除 `.codojo/`，除非用户明确要求清空学习进度。
 - 不要删除非 `dojo-*` 的其他 skill。
 - `_shared` 是 Codojo skills 的共享方法论目录，会随安装和卸载一起处理。
@@ -111,13 +111,13 @@ dojo uninstall --path /path/to/project --tools claude --yes
 Codex：
 
 ```text
-在目标项目中让 Codex 使用 $dojo-init。
+在目标项目中对 Codex 说：dojo init。
 ```
 
 Claude Code：
 
 ```text
-在目标项目中让 Claude Code 使用 dojo-init。
+在目标项目中对 Claude Code 说：dojo init。
 ```
 
-`dojo-init` 会读取方法论、检测 `.codojo/` 状态，并路由到正确阶段。
+`dojo init` 是对话里的 skill 触发关键词，不是 CLI 命令。也可以说 `道场启动`、`开始学习`、`启动` 或 `dojo start`。它会读取方法论、检测 `.codojo/` 状态，并路由到正确阶段。
