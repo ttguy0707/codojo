@@ -1,0 +1,59 @@
+<svg width="1200" height="360" viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Codojo 四阶段学习流程">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#991b1b" flood-opacity=".10"/>
+    </filter>
+    <style>
+      .bg{fill:#fffdfd;stroke:#fee2e2;stroke-width:1.5}
+      .title{font:700 30px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#111827}
+      .subtitle{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#6b7280}
+      .card{fill:#fff;stroke:#fecaca;stroke-width:1.6;filter:url(#shadow)}
+      .stage{font:800 15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#dc2626;letter-spacing:.5px}
+      .label{font:700 20px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#111827}
+      .desc{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#4b5563}
+      .line{stroke:#dc2626;stroke-width:2.4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" x="18" y="18" width="1164" height="324" rx="28"/>
+  <text class="title" x="600" y="62" text-anchor="middle">Codojo 四阶段学习流程</text>
+  <text class="subtitle" x="600" y="90" text-anchor="middle">从理解项目，到制定路线、完成实践，再到独立魔改。</text>
+
+  <g transform="translate(60 132)">
+    <rect class="card" x="0" y="0" width="170" height="150" rx="18"/>
+    <text class="stage" x="85" y="34" text-anchor="middle">S0</text>
+    <text class="label" x="85" y="68" text-anchor="middle">项目扫描</text>
+    <text class="desc" x="85" y="99" text-anchor="middle">读取方法论</text>
+    <text class="desc" x="85" y="122" text-anchor="middle">识别技术栈和进度</text>
+    <line class="line" x1="184" y1="75" x2="211" y2="75"/>
+
+    <rect class="card" x="225" y="0" width="170" height="150" rx="18"/>
+    <text class="stage" x="310" y="34" text-anchor="middle">S1</text>
+    <text class="label" x="310" y="68" text-anchor="middle">能力评估</text>
+    <text class="desc" x="310" y="99" text-anchor="middle">生成问卷</text>
+    <text class="desc" x="310" y="122" text-anchor="middle">记录目标和基础</text>
+    <line class="line" x1="409" y1="75" x2="436" y2="75"/>
+
+    <rect class="card" x="450" y="0" width="170" height="150" rx="18"/>
+    <text class="stage" x="535" y="34" text-anchor="middle">S2</text>
+    <text class="label" x="535" y="68" text-anchor="middle">计划生成</text>
+    <text class="desc" x="535" y="99" text-anchor="middle">定制知识点</text>
+    <text class="desc" x="535" y="122" text-anchor="middle">安排实践任务</text>
+    <line class="line" x1="634" y1="75" x2="661" y2="75"/>
+
+    <rect class="card" x="675" y="0" width="170" height="150" rx="18"/>
+    <text class="stage" x="760" y="34" text-anchor="middle">S3</text>
+    <text class="label" x="760" y="68" text-anchor="middle">正式教学</text>
+    <text class="desc" x="760" y="99" text-anchor="middle">理论讲解</text>
+    <text class="desc" x="760" y="122" text-anchor="middle">真实代码实践</text>
+    <line class="line" x1="859" y1="75" x2="886" y2="75"/>
+
+    <rect class="card" x="900" y="0" width="170" height="150" rx="18"/>
+    <text class="stage" x="985" y="34" text-anchor="middle">S4</text>
+    <text class="label" x="985" y="68" text-anchor="middle">项目魔改</text>
+    <text class="desc" x="985" y="99" text-anchor="middle">提出方案</text>
+    <text class="desc" x="985" y="122" text-anchor="middle">实现改造</text>
+  </g>
+</svg>

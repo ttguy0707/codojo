@@ -1,0 +1,63 @@
+<svg width="1200" height="520" viewBox="0 0 1200 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Codojo 系统结构">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#dc2626"/>
+    </marker>
+    <filter id="shadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#991b1b" flood-opacity=".10"/>
+    </filter>
+    <style>
+      .bg{fill:#fffdfd;stroke:#fee2e2;stroke-width:1.5}
+      .title{font:700 30px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#111827}
+      .subtitle{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#6b7280}
+      .box{fill:#fff;stroke:#fecaca;stroke-width:1.6;filter:url(#shadow)}
+      .pill{fill:#fff7f7;stroke:#fecaca;stroke-width:1.4}
+      .label{font:700 19px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#111827}
+      .desc{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;fill:#4b5563}
+      .line{stroke:#dc2626;stroke-width:2.4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" x="18" y="18" width="1164" height="484" rx="28"/>
+  <text class="title" x="600" y="62" text-anchor="middle">Codojo 系统结构</text>
+  <text class="subtitle" x="600" y="90" text-anchor="middle">CLI 负责安装 skills，agent 通过对话触发学习流程，进度沉淀到 .codojo。</text>
+
+  <rect class="box" x="70" y="145" width="220" height="112" rx="18"/>
+  <text class="label" x="180" y="188" text-anchor="middle">Codojo 仓库</text>
+  <text class="desc" x="180" y="218" text-anchor="middle">skills/ + scripts/</text>
+
+  <rect class="box" x="370" y="145" width="220" height="112" rx="18"/>
+  <text class="label" x="480" y="188" text-anchor="middle">dojo CLI</text>
+  <text class="desc" x="480" y="218" text-anchor="middle">install / uninstall</text>
+
+  <rect class="box" x="670" y="145" width="220" height="112" rx="18"/>
+  <text class="label" x="780" y="188" text-anchor="middle">目标代码项目</text>
+  <text class="desc" x="780" y="218" text-anchor="middle">写入 skills 和状态</text>
+
+  <rect class="box" x="970" y="145" width="150" height="252" rx="18"/>
+  <text class="label" x="1045" y="190" text-anchor="middle">.codojo</text>
+  <text class="desc" x="1045" y="226" text-anchor="middle">manifest</text>
+  <text class="desc" x="1045" y="254" text-anchor="middle">学习计划</text>
+  <text class="desc" x="1045" y="282" text-anchor="middle">进度表</text>
+  <text class="desc" x="1045" y="310" text-anchor="middle">笔记</text>
+  <text class="desc" x="1045" y="338" text-anchor="middle">魔改计划</text>
+
+  <line class="line" x1="292" y1="201" x2="362" y2="201"/>
+  <line class="line" x1="592" y1="201" x2="662" y2="201"/>
+  <line class="line" x1="892" y1="201" x2="962" y2="201"/>
+
+  <rect class="pill" x="250" y="340" width="220" height="82" rx="16"/>
+  <text class="label" x="360" y="374" text-anchor="middle">Codex</text>
+  <text class="desc" x="360" y="400" text-anchor="middle">.codex/skills</text>
+
+  <rect class="pill" x="510" y="340" width="220" height="82" rx="16"/>
+  <text class="label" x="620" y="374" text-anchor="middle">Claude Code</text>
+  <text class="desc" x="620" y="400" text-anchor="middle">.claude/skills</text>
+
+  <rect class="pill" x="770" y="340" width="160" height="82" rx="16"/>
+  <text class="label" x="850" y="374" text-anchor="middle">dojo init</text>
+  <text class="desc" x="850" y="400" text-anchor="middle">对话触发</text>
+
+  <line class="line" x1="725" y1="258" x2="420" y2="334"/>
+  <line class="line" x1="780" y1="258" x2="650" y2="334"/>
+  <line class="line" x1="835" y1="258" x2="850" y2="332"/>
+</svg>

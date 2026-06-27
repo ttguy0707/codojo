@@ -21,7 +21,7 @@ function usage() {
   console.log(`Codojo CLI
 
 用法：
-  dojo install [-t <工具>] [--path <项目目录>]
+  dojo install [-t <工具>] [--path <项目目录>] [--fix-shell]
   dojo uninstall [-t <工具>] [--path <项目目录>] -y
 
 命令：
@@ -31,9 +31,18 @@ function usage() {
 通用选项：
   --help, -h  显示帮助。
 
+安装选项：
+  -t, --tools <工具>  安装目标：codex, claude, codex,claude, all。
+  --path <项目目录>   目标项目目录，默认当前目录。
+  --fix-shell        修复新终端找不到 dojo：写入 npm 全局 bin 到 shell profile。
+
+卸载选项：
+  -y, --yes          确认卸载。
+
 示例：
   dojo install -t codex
   dojo install -t claude
+  dojo install --fix-shell
   dojo uninstall -y
 `);
 }

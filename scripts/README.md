@@ -31,7 +31,16 @@
 npm link
 ```
 
-默认同时安装到 Codex 和 Claude Code：
+然后进入用户要学习的代码仓，执行默认安装：
+
+```bash
+cd /path/to/project
+dojo install
+```
+
+默认使用当前目录作为目标项目。也就是说，`npm link` 在 Codojo 仓库中执行，`dojo install` 在用户的代码仓中执行。
+
+如果 AI 当前不在目标代码仓，可以用 `--path` 指定目标项目；默认仍然同时安装到 Codex 和 Claude Code：
 
 ```bash
 dojo install --path /path/to/project
@@ -49,11 +58,19 @@ dojo install --path /path/to/project -t codex
 dojo install --path /path/to/project -t claude
 ```
 
-重复执行安装会更新已存在的 Codojo 受管技能：
+重复执行安装会更新已存在的 Codojo 受管技能。人在目标项目目录时，直接执行：
 
 ```bash
-dojo install --path /path/to/project
+dojo install
 ```
+
+如果用户重开终端后 `dojo` 失效，执行：
+
+```bash
+dojo install --fix-shell
+```
+
+该命令会把 npm 全局 bin 目录写入 shell profile。普通 `dojo install` 不会修改 shell 配置，也不会输出这类修复提示。
 
 安装后会创建或更新：
 
@@ -101,6 +118,7 @@ dojo uninstall --path /path/to/project -t claude -y
 ## 安全规则
 
 - 安装可重复执行，只更新 Codojo 受管的 `_shared` 和 `dojo-*` 目录。
+- 只有用户明确执行 `--fix-shell` 时，才修改 shell profile。
 - 卸载必须带 `-y` 或 `--yes`。
 - 不要手动删除 `.codojo/`，除非用户明确要求清空学习进度。
 - 不要删除非 `dojo-*` 的其他 skill。

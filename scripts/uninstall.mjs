@@ -134,6 +134,54 @@ function sameDirectory(a, b) {
   }
 }
 
+function shouldUseColor() {
+  return Boolean(process.stdout.isTTY) && process.env.NO_COLOR === undefined;
+}
+
+function red(text) {
+  if (!shouldUseColor()) return text;
+  return `\x1b[38;2;220;38;38m${text}\x1b[0m`;
+}
+
+function bold(text) {
+  if (!shouldUseColor()) return text;
+  return `\x1b[1m${text}\x1b[0m`;
+}
+
+function colorSegment(line, start, end) {
+  return `${line.slice(0, start)}${red(line.slice(start, end))}${line.slice(end)}`;
+}
+
+function printHeader() {
+  const logoLines = [
+    '   ______          __        _     ',
+    '  / ____/___  ____/ /___    (_)___ ',
+    ' / /   / __ \\/ __  / __ \\  / / __ \\',
+    '/ /___/ /_/ / /_/ / /_/ / / / /_/ /',
+    '\\____/\\____/\\____/\\____/_/ /\\____/ ',
+    '                       /___/        ',
+  ];
+
+  const logoColorSegments = [
+    [19, 21],
+    [14, 24],
+    [13, 25],
+    [12, 25],
+    [12, 24],
+    null,
+  ];
+
+  const coloredLogoLines = logoLines.map((line, index) => {
+    const segment = logoColorSegments[index];
+    if (!segment) return line;
+    return colorSegment(line, segment[0], segment[1]);
+  });
+
+  console.log(`\n${coloredLogoLines.join('\n')}`);
+  console.log('');
+  console.log(`  ${red('-----')} ${bold('Code Dojo')} · ${bold('代码道场')} ${red('-----')}\n`);
+}
+
 function manifestTargetsFor(projectPath, selectedTools) {
   const manifest = readManifest(projectPath);
   if (Array.isArray(manifest?.tools)) {
@@ -173,22 +221,26 @@ function uninstall(projectPath, options) {
   const manifest = readManifest(projectPath);
 
   let removed = 0;
+  printHeader();
+
   for (const item of targets) {
     const targetSkillsDir = path.isAbsolute(item.target)
       ? item.target
       : path.join(projectPath, item.target);
 
     if (sameDirectory(targetSkillsDir, skillsSourceDir)) {
-      console.log(`跳过 ${item.label}：目标目录与 Codojo 源码 skills/ 相同。`);
+      console.log(`${red('●')} ${bold(item.label)} is ${red('skipped')} -> ${targetSkillsDir}`);
       continue;
     }
 
+    let removedForTarget = 0;
     for (const skillName of item.skills ?? []) {
       if (!skillName.startsWith(managedSkillPrefix)) continue;
       const skillPath = path.join(targetSkillsDir, skillName);
       if (existsSync(skillPath)) {
         rmSync(skillPath, { recursive: true, force: true });
         removed++;
+        removedForTarget++;
       }
     }
 
@@ -197,7 +249,11 @@ function uninstall(projectPath, options) {
     if (existsSync(sharedPath)) {
       rmSync(sharedPath, { recursive: true, force: true });
       removed++;
+      removedForTarget++;
     }
+
+    const status = removedForTarget > 0 ? 'removed' : 'already clean';
+    console.log(`${red('●')} ${bold(item.label)} is ${red(status)} -> ${targetSkillsDir}`);
   }
 
   if (Array.isArray(manifest?.tools)) {
@@ -213,8 +269,8 @@ function uninstall(projectPath, options) {
     }
   }
 
-  console.log(`已删除 ${removed} 个 Codojo 受管目录。`);
-  console.log('已保留 .codojo 学习文件。');
+  console.log('');
+  console.log(`Removed ${red(String(removed))} managed directories. Kept ${red('.codojo')} learning files.`);
 }
 
 try {

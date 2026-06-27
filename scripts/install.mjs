@@ -10,6 +10,8 @@ import {
   statSync,
   writeFileSync,
 } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
@@ -36,12 +38,13 @@ function usage() {
   console.log(`Codojo 安装脚本
 
 用法：
-  dojo install [--path <项目目录>] [-t <工具>]
+  dojo install [--path <项目目录>] [-t <工具>] [--fix-shell]
 
 选项：
   --path <项目目录>  目标项目目录，默认是当前目录。
   --tools, -t <工具> 逗号分隔：codex,claude，或 all。默认 all。
   --force            兼容旧用法；当前安装默认会更新受管技能。
+  --fix-shell        将 npm 全局 bin 写入 shell profile，修复新终端找不到 dojo。
   --help             显示帮助。
 
 兼容用法：
@@ -54,6 +57,7 @@ function parseArgs(argv) {
     path: process.cwd(),
     tools: 'all',
     force: false,
+    fixShell: false,
     help: false,
   };
 
@@ -69,6 +73,8 @@ function parseArgs(argv) {
       options.tools = value;
     } else if (arg === '--force') {
       options.force = true;
+    } else if (arg === '--fix-shell') {
+      options.fixShell = true;
     } else if (arg === '--help' || arg === '-h') {
       options.help = true;
     } else {
@@ -218,6 +224,86 @@ function printInstallHeader() {
   console.log(`  ${red('-----')} ${bold('Code Dojo')} · ${bold('代码道场')} ${red('-----')}\n`);
 }
 
+function npmCommand() {
+  return process.platform === 'win32' ? 'npm.cmd' : 'npm';
+}
+
+function resolveGlobalBinDir() {
+  try {
+    const prefix = execFileSync(npmCommand(), ['prefix', '-g'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+
+    if (prefix) {
+      return process.platform === 'win32' ? prefix : path.join(prefix, 'bin');
+    }
+  } catch {
+    // Fall through to the current Node binary directory.
+  }
+
+  return path.dirname(process.execPath);
+}
+
+function pathHasDirectory(value, directory) {
+  return (value ?? '')
+    .split(path.delimiter)
+    .filter(Boolean)
+    .some((item) => path.resolve(item) === path.resolve(directory));
+}
+
+function shellProfilePath() {
+  if (process.platform === 'win32') return null;
+
+  const shell = process.env.SHELL ?? '';
+  const home = os.homedir();
+  if (shell.includes('zsh')) return path.join(home, '.zshrc');
+  if (shell.includes('bash')) return path.join(home, '.bashrc');
+  return path.join(home, '.profile');
+}
+
+function writeShellProfileBlock(profilePath, directory) {
+  const existing = existsSync(profilePath) ? readFileSync(profilePath, 'utf8') : '';
+  if (existing.includes('>>> codojo cli >>>') || existing.includes(directory)) {
+    return false;
+  }
+
+  const prefix = existing.endsWith('\n') || existing.length === 0 ? '' : '\n';
+  const block = `${prefix}
+# >>> codojo cli >>>
+export PATH="${directory}:$PATH"
+# <<< codojo cli <<<
+`;
+  writeFileSync(profilePath, `${existing}${block}`);
+  return true;
+}
+
+function handleShellPersistence(options) {
+  if (!options.fixShell) return;
+
+  const binDir = resolveGlobalBinDir();
+  const profilePath = shellProfilePath();
+
+  if (process.platform === 'win32') {
+    if (!pathHasDirectory(process.env.PATH, binDir)) {
+      console.log('');
+      console.log(`${red('●')} Add npm global bin to your user PATH: ${binDir}`);
+    }
+    return;
+  }
+
+  if (!profilePath) return;
+
+  const changed = writeShellProfileBlock(profilePath, binDir);
+  console.log('');
+  if (changed) {
+    console.log(`${red('●')} Shell profile updated -> ${profilePath}`);
+    console.log(`Restart your terminal or run: ${bold(`source ${profilePath}`)}`);
+  } else {
+    console.log(`${red('●')} Shell profile is already configured -> ${profilePath}`);
+  }
+}
+
 function install(projectPath, options) {
   if (!existsSync(skillsSourceDir)) {
     throw new Error(`找不到 skills 源目录：${skillsSourceDir}`);
@@ -283,6 +369,7 @@ function install(projectPath, options) {
 
   console.log('');
   console.log(`Now open your ${red('agent')} and say: ${red('dojo init')}`);
+  handleShellPersistence(options);
 }
 
 try {
