@@ -8,8 +8,8 @@
 
 [![Codojo](https://img.shields.io/badge/Codojo-v0.1.0-6B7280.svg?labelColor=DC2626)](package.json)
 [![Node](https://img.shields.io/badge/Node.js-20+-6B7280.svg?labelColor=339933)](https://nodejs.org)
-[![Codex](https://img.shields.io/badge/Codex-on-6B7280.svg?labelColor=0099FF)](#快速开始)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-on-6B7280.svg?labelColor=D97757)](#快速开始)
+[![Codex](https://img.shields.io/badge/Codex-skill-6B7280.svg?labelColor=0099FF)](#快速开始)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-6B7280.svg?labelColor=D97757)](#快速开始)
 [![License](https://img.shields.io/badge/License-MIT-6B7280.svg?labelColor=16A34A)](LICENSE)
 
 **Code Dojo · 代码道场**
